@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Part 3 Vega-Lite Viz2</title>
+		<meta charset="utf-8" />
+		<!-- Include Vega, Vega-Lite, and Vega-Embed scripts from CDN for rendering visualizations -->
+		<script src="https://cdn.jsdelivr.net/npm/vega@5.25.0"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vega-lite@5.16.0"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.2"></script>
+		<!-- Inline CSS to add spacing between Vega-Embed action links -->
+		<style media="screen">
+			.vega-actions a {
+			margin-right: 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- Container for the Vega-Lite visualization -->
+		<div id="vis"></div>
+		<script>
+			// JavaScript code to define the visualization specification
+			var vlSpec = {
+			"$schema": "https://vega.github.io/schema/vega-lite/v5.15.1.json", // Vega-Lite schema URL
+			"title": "Group 11", // We Are Group 11 ^_________________^
+			"data": {"url": "https://raw.githubusercontent.com/vega/vega/main/docs/data/seattle-weather.csv"}, // Data source URL
+			"vconcat": [{ // Vertical concatenation of two visualizations
+			   "width": 500, // Width of the main view
+			   "mark": {"type": "point", "filled": true}, // Main view uses filled points
+			   "encoding": { // Encoding for the main view
+			      "x": {
+			         "field": "date", // X-axis uses the 'date' field
+			         "type": "temporal", // X-axis data type is temporal (time-based)
+			         "scale": {"domain": {"selection": "brush"}}, // X-axis scale is linked to a selection named 'brush'
+			         "axis": {"title": "", "labelAngle": 0} // X-axis title is empty and labels are not angled
+			      },
+			      "y": {"field": "wind", "type": "quantitative"}, // Y-axis uses the 'wind' field and is quantitative
+			      "color": {"field": "weather"} // Color encoding uses the 'weather' field
+			   }
+			},
+			{
+			   "width": 500, // Width of the selection view
+			   "height": 55, // Height of the selection view
+			   "mark": {"type": "point", "filled": true}, // Selection view also uses filled points
+			   "selection": {
+			      "brush": {"type": "interval", "encodings": ["x"]} // 'brush' is an interval selection on the X-axis
+			   },
+			   "encoding": { // Encoding for the selection view
+			      "x": {
+			         "field": "date", // X-axis uses the 'date' field
+			         "type": "temporal", // X-axis data type is temporal
+			         "axis": {"format": "%Y"} // X-axis labels formatted to show only the year
+			      },
+			      "y": {
+			         "field": "wind", // Y-axis uses the 'wind' field
+			         "type": "quantitative", // Y-axis is quantitative
+			      },
+			      "color": {"field": "weather"} // Color encoding uses the 'weather' field
+			   }
+			}]
+			}
+			// Use Vega-Embed to render the visualization in the div with id 'vis'
+			vegaEmbed('#vis', vlSpec);
+		</script>
+	</body>
+</html>

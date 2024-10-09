@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Part 3 Vega-Lite Viz1</title>
+		<meta charset="utf-8" />
+		<!-- Include Vega, Vega-Lite, and Vega-Embed scripts from CDN for rendering the visualization -->
+		<script src="https://cdn.jsdelivr.net/npm/vega@5.25.0"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vega-lite@5.16.0"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.2"></script>
+		<!-- Inline CSS to add spacing between Vega-Embed action links -->
+		<style media="screen">
+			.vega-actions a {
+			margin-right: 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- Container for the Vega-Lite visualization -->
+		<div id="vis"></div>
+		<script>
+			// JavaScript code to define the visualization specification
+			var vlSpec = {
+			   "$schema": "https://vega.github.io/schema/vega-lite/v5.15.1.json", // Vega-Lite schema URL
+			   "title": "Group 11", // We Are Group 11 ^_________________^
+			   "data": {"url": "https://raw.githubusercontent.com/sheriefAbdallah/CS318/main/Transactions-smaller.csv"}, // Data source URL
+			   "config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, // Configuration for view size
+			   "vconcat": [ // Vertical concatenation of two visualizations
+			      {
+			         "mark": {"type": "point"}, // First visualization: scatter plot
+			         "encoding": {
+			            "color": {"field": "property_type_en", "type": "nominal"}, // Color encoding by property type
+			            "x": {"field": "rent_value", "type": "quantitative", "aggregate": "average"}, // X-axis encoding with average rent value
+			            "y": {"field": "meter_rent_price", "type": "quantitative"}, // Y-axis encoding with meter rent price
+			         },
+			         "transform": [
+			            {"filter": "datum.meter_rent_price < 50000"}, // Filter to limit meter rent price
+			            {"filter": "datum.rent_value < 10000000"} // Filter to limit rent value
+			         ],
+			         "selection": {
+			            "mySelection": {"type": "interval", "encodings": ["y"]} // Interactive selection on the Y-axis
+			         }
+			      },
+			      {
+			         "mark": {"type": "bar"}, // Second visualization: bar chart
+			         "encoding": {
+			            "color": {"field": "property_type_en", "type": "nominal"}, // Color encoding by property type
+			            "x": {"aggregate": "count", "type": "quantitative"}, // X-axis encoding with count aggregation
+			            "y": {"field": "property_type_en", "type": "nominal"}, // Y-axis encoding with property type
+			         },
+			         "transform": [
+			            {"filter": {"selection": "mySelection"}} // Filter based on the selection from the first visualization
+			         ]
+			      }
+			   ],
+				}
+			
+			// Embed the visualization in the container with id `vis` using the Vega-Embed library
+			vegaEmbed('#vis', vlSpec);
+		</script>
+	</body>
+</html>

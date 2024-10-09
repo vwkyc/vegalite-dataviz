@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Question 4 Vega-Lite Bar Chart</title>
+    <meta charset="utf-8" />
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.25.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.16.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.2"></script>
+
+    <style media="screen">
+      /* Add space between Vega-Embed links  */
+      .vega-actions a {
+        margin-right: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Container for the visualization -->
+    <div id="vis"></div>
+
+    <script>
+      // Assign the specification to a local variable vlSpec.
+        var vlSpec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A simple radial chart with embedded data.",
+  "title":"Group 11",
+  "data": {
+    "url": "https://raw.githubusercontent.com/sheriefAbdallah/CS318/main/Transactions-smaller.csv"
+  },
+  "layer": [
+    {
+      "mark": {"type": "arc", "innerRadius": 20, "stroke": "#fff"}
+    },
+    {
+      "mark": {"type": "text", "radiusOffset": 10},
+      "encoding": {
+        "text": {"field": "property_type_en", "type": "nominal"}
+      }
+    }
+  ],
+  "encoding": {
+    "theta": {"aggregate": "count", "type": "quantitative", "stack": "normalize"},
+    "radius": {"aggregate": "count", "type": "quantitative", "scale": {"type": "sqrt", "zero": true, "rangeMin": 20}},
+    "color": {"field": "property_type_en", "type": "nominal"}
+  }
+}
+
+      // Embed the visualization in the container with id `vis`
+      vegaEmbed('#vis', vlSpec);
+    </script>
+  </body>
+</html>

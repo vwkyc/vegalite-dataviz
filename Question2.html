@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Question 2 Vega-Lite Bar Chart</title>
+    <meta charset="utf-8" />
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.25.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.16.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.2"></script>
+
+    <style media="screen">
+      /* Add space between Vega-Embed links  */
+      .vega-actions a {
+        margin-right: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Container for the visualization -->
+    <div id="vis"></div>
+
+    <script>
+      // Assign the specification to a local variable vlSpec.
+      var vlSpec = {
+        $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+        "title": "Group 11",
+        "data": {"url": "https://raw.githubusercontent.com/sheriefAbdallah/CS318/main/Transactions-smaller.csv"},
+        mark: 'line',
+        "encoding": {
+  "x": {
+    "timeUnit": "year",
+    "field": "instance_date",
+    "type": "quantitative",
+  },
+  "y": {
+    "field": "transaction_id",
+    "type": "quantitative",
+    "aggregate": "count", 
+    "title": "Count of Records",
+    "scale": {"domain": [0, 500]}
+  },
+  "color": {
+      "field": "rooms_en",
+      "type": "nominal"
+    }
+}
+      }
+      // Embed the visualization in the container with id `vis`
+      vegaEmbed('#vis', vlSpec);
+    </script>
+  </body>
+</html>
